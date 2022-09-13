@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using SLRDbConnector;
+using ContractManagementSystem.Forms;
+
 
 namespace ContractManagementSystem
 {
@@ -37,14 +39,17 @@ namespace ContractManagementSystem
             {
                 if (checkLogin())
                 {
-                  
+                  using (Form_Dashboard fd = new Form_Dashboard())
+                    {
+                        fd.ShowDialog();
+                    }
                 }
             }
         }
 
         private bool checkLogin()
         {
-            string username = db.getSingleValue("select UserName frm tblUsers where UserName = '"+txtUserName.Text+"' and Password = '"+txtPassword.Text+"'",out username, 0);
+            string username = db.getSingleValue("select UserName from tblUsers where UserName = '"+txtUserName.Text+"' and Password = '"+txtPassword.Text+"'",out username, 0);
             if(username == null)
             {
                 MessageBox.Show("Username or Password is Incorrect", "Invalid Details", MessageBoxButtons.OK, MessageBoxIcon.Error);
